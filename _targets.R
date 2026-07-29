@@ -64,7 +64,7 @@ list(
   ),
 
   # ─────────────────────────────────────────
-  # Compare models of evolution
+  # Compare models of evolution for full tree
   # ─────────────────────────────────────────
 
   # get independent mcmc chains
@@ -107,6 +107,57 @@ list(
         fit_alternative, fit_alternative_reversible
       )
     )
+  ),
+
+  # ─────────────────────────────────────────────────
+  # Compare models of evolution for specific families
+  # ─────────────────────────────────────────────────
+
+  # loop over language families
+  tar_map(
+
+    values = tibble(
+      family = c("Atlantic-Congo", "Austronesian", "Afro-Asiatic",
+                 "Uto-Aztecan", "Indo-European", "Nilotic",
+                 "Athabaskan-Eyak-Tlingit", "Sino-Tibetan")
+    ),
+
+    # loop over models
+    tar_map(
+
+      values = tibble(
+        model = c(
+          "full", "rectilinear", "unilinear", "relaxed_unilinear",
+          "alternative", "alternative_reversible"
+        )
+      ),
+
+      # fit model
+      tar_target(
+        fit,
+        fit_model(data, tree, chain, model, family),
+        pattern = map(chain),
+        deployment = "worker",
+        storage = "worker",
+        retrieval = "worker"
+      ),
+
+      # get diagnostics
+      tar_target(diagnostics, calculate_model_diagnostics(fit))
+
+    ),
+
+    # model comparison table
+    tar_target(
+      table_model_comparison,
+      get_table_model_comparison(
+        bind_rows(
+          fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear,
+          fit_alternative, fit_alternative_reversible
+        )
+      )
+    )
+
   ),
 
   # ─────────────────────────────────────────

@@ -7,6 +7,8 @@
 #' @param model Character of length 1. Which model to fit. One of: "full",
 #'   "rectilinear", "unilinear", "relaxed_unilinear", "alternative", or
 #'   "alternative_reversible"
+#' @param family Character of length 1. Which language family to subset to. If
+#'   \code{NULL} (default), uses the full global tree.
 #' @param iter Numeric. Number of MCMC sampling iterations.
 #' @param burnin Numeric. Number of MCMC burn-in iterations.
 #' @param stones Logical. If \code{TRUE} (default), include stepping stone
@@ -19,9 +21,15 @@
 #'
 #' @returns A tibble of posterior samples
 #'
-fit_model <- function(data, tree, chain, model = "full", iter = 550000,
-                      burnin = 50000, stones = TRUE, asr = FALSE,
+fit_model <- function(data, tree, chain, model = "full", family = NULL,
+                      iter = 550000, burnin = 50000, stones = TRUE, asr = FALSE,
                       tree_id = NULL) {
+
+  # subset to particular language family?
+  if (!is.null(family)) {
+    data <- filter(data, language_family == family)
+    tree <- keep.tip.multiPhylo(tree, tip = data$xd_id)
+  }
 
   # tree_id must be set if asr is true
   if (asr & is.null(tree_id)) {
@@ -39,9 +47,12 @@ fit_model <- function(data, tree, chain, model = "full", iter = 550000,
   }
 
   # get file names for data, tree, and commands
-  data_file     <- paste0("data_",     model, "_", tree_id, "_", chain, ".txt")
-  tree_file     <- paste0("tree_",     model, "_", tree_id, "_", chain, ".txt")
-  commands_file <- paste0("commands_", model, "_", tree_id, "_", chain, ".txt")
+  suffix <- paste0(
+    model, "_", tree_id, "_", chain, ifelse(!is.null(family), "_", ""), family
+  )
+  data_file     <- paste0("data_",     suffix, ".txt")
+  tree_file     <- paste0("tree_",     suffix, ".txt")
+  commands_file <- paste0("commands_", suffix, ".txt")
 
   # create tab-separated data file in /bayestraits directory
   data |>
@@ -70,7 +81,7 @@ fit_model <- function(data, tree, chain, model = "full", iter = 550000,
       c(
         "1",                       # multistate
         "2",                       # mcmc
-        "HyperPriorAll exp 0 10",  # priors
+        "PriorAll exp 10",         # priors
         paste("Burnin", burnin),   # number of burnin iterations
         paste("Iterations", iter), # number of sampling iterations
         paste("Seed", chain)       # seed
