@@ -34,14 +34,17 @@
 #'
 load_dplace_data <- function(dplace_data_url, dplace_societies_url,
                              glottolog_languages_url, mcc_tree) {
+
   # load csv files
   data <- read.csv(file = dplace_data_url)
   societies <- read.csv(file = dplace_societies_url)
   languages <- read.csv(file = glottolog_languages_url)
+
   # ordered levels
   levels_EA066 <- c("Absence of distinctions", "Wealth distinctions",
                     "Elite stratification", "Dual stratification",
                     "Complex stratification")
+
   # wrangle ethnographic atlas data
   data |>
     # filter to ethnographic atlas data only
@@ -85,4 +88,5 @@ load_dplace_data <- function(dplace_data_url, dplace_societies_url,
     ) |>
     dplyr::select(soc_id:glottocode, Name, region:class_differentiation) |>
     rename(language_family = Name)
+
 }
