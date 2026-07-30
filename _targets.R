@@ -109,17 +109,17 @@ list(
     )
   ),
 
-  # ─────────────────────────────────────────────────
-  # Compare models of evolution for specific families
-  # ─────────────────────────────────────────────────
+  # ───────────────────────────────────────────────────────
+  # Compare models of evolution excluding specific families
+  # ───────────────────────────────────────────────────────
 
   # loop over language families
   tar_map(
 
     values = tibble(
-      family = c("Atlantic-Congo", "Austronesian", "Afro-Asiatic",
-                 "Uto-Aztecan", "Indo-European", "Nilotic",
-                 "Athabaskan-Eyak-Tlingit", "Sino-Tibetan")
+      exclude_family = c("Atlantic-Congo", "Austronesian", "Afro-Asiatic",
+                         "Uto-Aztecan", "Indo-European", "Algic", "Nilotic",
+                         "Athabaskan-Eyak-Tlingit", "Sino-Tibetan", "Mande")
     ),
 
     # loop over models
@@ -135,7 +135,7 @@ list(
       # fit model
       tar_target(
         fit,
-        fit_model(data, tree, chain, model, family),
+        fit_model(data, tree, chain, model, exclude_family),
         pattern = map(chain),
         deployment = "worker",
         storage = "worker",

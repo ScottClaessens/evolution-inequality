@@ -7,8 +7,8 @@
 #' @param model Character of length 1. Which model to fit. One of: "full",
 #'   "rectilinear", "unilinear", "relaxed_unilinear", "alternative", or
 #'   "alternative_reversible"
-#' @param family Character of length 1. Which language family to subset to. If
-#'   \code{NULL} (default), uses the full global tree.
+#' @param exclude_family Character of length 1. Which language family to
+#'   exclude. If \code{NULL} (default), uses the full global tree.
 #' @param iter Numeric. Number of MCMC sampling iterations.
 #' @param burnin Numeric. Number of MCMC burn-in iterations.
 #' @param stones Logical. If \code{TRUE} (default), include stepping stone
@@ -21,13 +21,18 @@
 #'
 #' @returns A tibble of posterior samples
 #'
-fit_model <- function(data, tree, chain, model = "full", family = NULL,
+fit_model <- function(data, tree, chain, model = "full", exclude_family = NULL,
                       iter = 550000, burnin = 50000, stones = TRUE, asr = FALSE,
                       tree_id = NULL) {
 
-  # subset to particular language family?
-  if (!is.null(family)) {
-    data <- filter(data, language_family == family)
+  # exclude a particular language family?
+  if (!is.null(exclude_family)) {
+    data <-
+      filter(
+        data,
+        (language_family != exclude_family) |
+          is.na(language_family != exclude_family)
+      )
     tree <- keep.tip.multiPhylo(tree, tip = data$xd_id)
   }
 
@@ -48,7 +53,8 @@ fit_model <- function(data, tree, chain, model = "full", family = NULL,
 
   # get file names for data, tree, and commands
   suffix <- paste0(
-    model, "_", tree_id, "_", chain, ifelse(!is.null(family), "_", ""), family
+    model, "_", tree_id, "_", chain,
+    ifelse(!is.null(exclude_family), "_", ""), exclude_family
   )
   data_file     <- paste0("data_",     suffix, ".txt")
   tree_file     <- paste0("tree_",     suffix, ".txt")
