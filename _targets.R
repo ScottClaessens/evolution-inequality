@@ -135,7 +135,59 @@ list(
       # fit model
       tar_target(
         fit,
-        fit_model(data, tree, chain, model, exclude_family),
+        fit_model(data, tree, chain, model,
+                  exclude_family = exclude_family),
+        pattern = map(chain),
+        deployment = "worker",
+        storage = "worker",
+        retrieval = "worker"
+      ),
+
+      # get diagnostics
+      tar_target(diagnostics, calculate_model_diagnostics(fit))
+
+    ),
+
+    # model comparison table
+    tar_target(
+      table_model_comparison,
+      get_table_model_comparison(
+        bind_rows(
+          fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear,
+          fit_alternative, fit_alternative_reversible
+        )
+      )
+    )
+
+  ),
+
+  # ─────────────────────────────────────────────────────────
+  # Compare models of evolution excluding specific continents
+  # ─────────────────────────────────────────────────────────
+
+  # loop over continents
+  tar_map(
+
+    values = tibble(
+      exclude_continent = c("Africa", "Asia", "Europe", "North America",
+                            "Oceania", "South America")
+    ),
+
+    # loop over models
+    tar_map(
+
+      values = tibble(
+        model = c(
+          "full", "rectilinear", "unilinear", "relaxed_unilinear",
+          "alternative", "alternative_reversible"
+        )
+      ),
+
+      # fit model
+      tar_target(
+        fit,
+        fit_model(data, tree, chain, model,
+                  exclude_continent = exclude_continent),
         pattern = map(chain),
         deployment = "worker",
         storage = "worker",

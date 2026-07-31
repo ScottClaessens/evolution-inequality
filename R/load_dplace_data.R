@@ -5,7 +5,7 @@
 #' societies that can be linked to the phylogenetic tree.
 #'
 #' @details The dataset produced by this function is a tibble with 1258
-#'   observations and 10 variables:
+#'   observations and 11 variables:
 #' \describe{
 #'  \item{soc_id}{Character, society ID}
 #'  \item{xd_id}{Character, cross-dataset ID (see
@@ -15,6 +15,7 @@
 #'  \item{language_family}{Language family for the language or dialect of the
 #'    society}
 #'  \item{region}{Region of the society}
+#'  \item{continent}{Continent of the society}
 #'  \item{focal_year}{Principal year to which data refer}
 #'  \item{latitude}{Latitude of the society}
 #'  \item{longitude}{Longitude of the society}
@@ -45,6 +46,60 @@ load_dplace_data <- function(dplace_data_url, dplace_societies_url,
                     "Elite stratification", "Dual stratification",
                     "Complex stratification")
 
+  # list of continents
+  continents <- c(
+    "East Tropical Africa"         = "Africa",
+    "Macaronesia"                  = "Africa",
+    "Northeast Tropical Africa"    = "Africa",
+    "Northern Africa"              = "Africa",
+    "South Tropical Africa"        = "Africa",
+    "Southern Africa"              = "Africa",
+    "Subantarctic Islands"         = "Africa",
+    "West Tropical Africa"         = "Africa",
+    "West-Central Tropical Africa" = "Africa",
+    "Western Indian Ocean"         = "Africa",
+    "Arabian Peninsula"            = "Asia",
+    "Caucasus"                     = "Asia",
+    "China"                        = "Asia",
+    "Eastern Asia"                 = "Asia",
+    "Indian Subcontinent"          = "Asia",
+    "Indo-China"                   = "Asia",
+    "Malesia"                      = "Asia",
+    "Middle Asia"                  = "Asia",
+    "Mongolia"                     = "Asia",
+    "Russian Far East"             = "Asia",
+    "Siberia"                      = "Asia",
+    "Western Asia"                 = "Asia",
+    "Eastern Europe"               = "Europe",
+    "Middle Europe"                = "Europe",
+    "Northern Europe"              = "Europe",
+    "Southeastern Europe"          = "Europe",
+    "Southwestern Europe"          = "Europe",
+    "Caribbean"                    = "North America",
+    "Central America"              = "North America",
+    "Eastern Canada"               = "North America",
+    "Mexico"                       = "North America",
+    "North-Central U.S.A."         = "North America",
+    "Northeastern U.S.A."          = "North America",
+    "Northwestern U.S.A."          = "North America",
+    "South-Central U.S.A."         = "North America",
+    "Southeastern U.S.A."          = "North America",
+    "Southwestern U.S.A."          = "North America",
+    "Subarctic America"            = "North America",
+    "Western Canada"               = "North America",
+    "Australia"                    = "Oceania",
+    "New Zealand"                  = "Oceania",
+    "North-Central Pacific"        = "Oceania",
+    "Northwestern Pacific"         = "Oceania",
+    "Papuasia"                     = "Oceania",
+    "South-Central Pacific"        = "Oceania",
+    "Southwestern Pacific"         = "Oceania",
+    "Brazil"                       = "South America",
+    "Northern South America"       = "South America",
+    "Southern South America"       = "South America",
+    "Western South America"        = "South America"
+  )
+
   # wrangle ethnographic atlas data
   data |>
     # filter to ethnographic atlas data only
@@ -69,6 +124,7 @@ load_dplace_data <- function(dplace_data_url, dplace_societies_url,
       society               = Name,
       glottocode            = Glottocode,
       region                = region,
+      continent             = continents[region],
       focal_year            = main_focal_year,
       latitude              = Latitude,
       longitude             = Longitude,

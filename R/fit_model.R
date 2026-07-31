@@ -8,7 +8,9 @@
 #'   "rectilinear", "unilinear", "relaxed_unilinear", "alternative", or
 #'   "alternative_reversible"
 #' @param exclude_family Character of length 1. Which language family to
-#'   exclude. If \code{NULL} (default), uses the full global tree.
+#'   exclude. If \code{NULL} (default), uses the full sample.
+#' @param exclude_continent Character of length 1. Which continent to exclude.
+#'   If \code{NULL} (default), uses the full sample.
 #' @param iter Numeric. Number of MCMC sampling iterations.
 #' @param burnin Numeric. Number of MCMC burn-in iterations.
 #' @param stones Logical. If \code{TRUE} (default), include stepping stone
@@ -22,17 +24,18 @@
 #' @returns A tibble of posterior samples
 #'
 fit_model <- function(data, tree, chain, model = "full", exclude_family = NULL,
-                      iter = 550000, burnin = 50000, stones = TRUE, asr = FALSE,
-                      tree_id = NULL) {
+                      exclude_continent = NULL, iter = 550000, burnin = 50000,
+                      stones = TRUE, asr = FALSE, tree_id = NULL) {
 
   # exclude a particular language family?
   if (!is.null(exclude_family)) {
-    data <-
-      filter(
-        data,
-        (language_family != exclude_family) |
-          is.na(language_family != exclude_family)
-      )
+    data <- filter_out(data, language_family == exclude_family)
+    tree <- keep.tip.multiPhylo(tree, tip = data$xd_id)
+  }
+
+  # exclude a particular continent?
+  if (!is.null(exclude_continent)) {
+    data <- filter_out(data, continent == exclude_continent)
     tree <- keep.tip.multiPhylo(tree, tip = data$xd_id)
   }
 
@@ -52,9 +55,19 @@ fit_model <- function(data, tree, chain, model = "full", exclude_family = NULL,
   }
 
   # get file names for data, tree, and commands
-  suffix <- paste0(
-    model, "_", tree_id, "_", chain,
-    ifelse(!is.null(exclude_family), "_", ""), exclude_family
+  suffix <-
+    paste0(
+      model, "_", tree_id, "_", chain,
+      ifelse(
+        !is.null(exclude_family),
+        paste0("_", exclude_family),
+        ""
+      ),
+      ifelse(
+        !is.null(exclude_continent),
+        paste0("_", str_replace(exclude_continent, " ", "_")),
+        ""
+      )
   )
   data_file     <- paste0("data_",     suffix, ".txt")
   tree_file     <- paste0("tree_",     suffix, ".txt")
