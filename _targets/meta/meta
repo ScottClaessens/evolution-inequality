@@ -888,7 +888,6 @@ plot_Uralic|stem|5ad321776beeabca|b2ce41751494009a|4dcf73b36c0a499f|1321132887||
 plot_Salishan|stem|37862f614c296298|bfa1b19400c37cfa|4dcf73b36c0a499f|-543999349||t20665.5256318373s|s517896b|517896|rds|local|vector|||36.686||
 plot_Mande|stem|c09d285d139781cc|d06cc619ca9fb075|4dcf73b36c0a499f|-1768471736||t20665.525980462s|s518036b|518036|rds|local|vector|||9.757||
 plot_Dravidian|stem|ae7ec49eae47bbf4|9321a7089f061ab5|4dcf73b36c0a499f|1285821890||t20665.5265261093s|s516705b|516705|rds|local|vector|||31.267||
-plot_tree_states|stem|9b61d8e30e50934a|a7ed96d3582bb893|3a61e6285bdc3c2c|-946372951||t20665.5267940813s|s22496330b|22496330|rds|local|vector|||3.466|`coord_geo_polar()` was deprecated in deeptime 1.1.0. ℹ Please use `coord_geo_radial()` instead.. Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.|
 plot_Arawakan|stem|c7b4d149c64a5e2b|e485fff5906bd6de|4dcf73b36c0a499f|-1426643989||t20665.5273946679s|s515911b|515911|rds|local|vector|||35.399||
 plot_Eskimo.Aleut|stem|43fc4dc110d47af1|ae0a5f134b4d99fa|4dcf73b36c0a499f|740457859||t20665.5276804798s|s516530b|516530|rds|local|vector|||9.612||
 plot_Global|stem|2b33ab398fbc1309|7a38c83561d5e0a4|4dcf73b36c0a499f|1369334778||t20665.5289719705s|s520951b|520951|rds|local|vector|||95.61||
@@ -1080,9 +1079,10 @@ fit_rectilinear_Mande_7f409aed69112da4|branch|89237a3e1dc845b7|4646e590a6c6f04a|
 fit_rectilinear_Mande_0b877e3a6d8996d1|branch|fc30316f26ae2129|4646e590a6c6f04a|76f64569d8a55e67|-931132757||t20665.6322090558s|s13040b|13040|rds|local|vector|fit_rectilinear_Mande||290.694||
 fit_rectilinear_Mande_1e51827a6c682273|branch|bf85a0aba6ae24da|4646e590a6c6f04a|76f64569d8a55e67|-1447824497||t20665.6322935819s|s13063b|13063|rds|local|vector|fit_rectilinear_Mande||289.892||
 diagnostics_rectilinear_Mande|stem|79a795b6ff8589fe|2d2eaf17c98e2829|dbcbe1b1334b4bc4|-1774344176||t20665.6322940687s|s313b|313|rds|local|vector|||0.019||
-manuscript|stem|1cc38f4a25c8229c|33165a4afbebc956|67899d9908d6d952|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20665.7994706279s|s1477664b|1477664|file|local|vector|||44.133||
+manuscript|stem|4a144671247781dd|33165a4afbebc956|67899d9908d6d952|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20670.5814730083s|s1486187b|1486187|file|local|vector|||61.6||
+plot_tree_states|stem|f52429bf0126b21e|a7ed96d3582bb893|7c93bd2be6637c4c|-946372951||t20671.5139213506s|s22524161b|22524161|rds|local|vector|||2.457|`coord_geo_polar()` was deprecated in deeptime 1.1.0. ℹ Please use `coord_geo_radial()` instead.. Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.|
 fit_model|function|3a4063d212291d95
-plot_tree|function|f87a08cdc0363803
+plot_tree|function|79f8b4e15be6ad25
 get_table_model_comparison|function|89f6d8a3d44e0154
 load_dplace_data|function|a8f5a9a0f3fc3bcb
 get_log_lik_fossilised|function|788f7fa86f45b025

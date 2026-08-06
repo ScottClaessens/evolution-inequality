@@ -84,7 +84,7 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
     theme(
       deeptime.axis.line.r = element_blank(),
       deeptime.axis.text.r = element_text(
-        size = 2,
+        size = 3,
         vjust = -2,
         hjust = -0.5
       ),
@@ -102,7 +102,7 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
       color = NA
     ) +
     scale_fill_brewer(
-      name = "EA066",
+      name = "Class\ndifferentiation",
       labels = function(x) {
         labs <- c("Absence of distinctions",
                   "Wealth distinctions",
@@ -111,7 +111,8 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
       },
       type = "seq",
       palette = 7,
-      na.value = "grey95"
+      na.value = "grey95",
+      guide = guide_legend(order = 1)
     )
 
   # get taxa bookends for language families
@@ -155,7 +156,7 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
         offset = 17,
         offset.text = 3,
         barsize = 0.2,
-        fontsize = 2.5,
+        fontsize = 3,
         hjust = ifelse(
           family %in% c("Afro-Asiatic", "Indo-European", "Uralic",
                         "Dravidian", "Austronesian", "Austroasiatic",
@@ -166,6 +167,22 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
         )
       )
   }
+
+  # move legend below plot
+  out <-
+    out +
+    theme(
+      legend.position = "bottom",
+      legend.margin = margin(5, 5, 5, 5),
+      legend.box.margin = margin(-40, 0, 0, 0),
+      legend.spacing.x = unit(1, "cm"),
+      legend.title = element_text(
+        size = 11,
+        margin = margin(0, 20, 0, 0),
+        vjust = 0.5
+      ),
+      legend.text = element_text(size = 9)
+    )
 
   # save
   ggsave(
