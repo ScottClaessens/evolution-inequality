@@ -1079,10 +1079,11 @@ fit_rectilinear_Mande_7f409aed69112da4|branch|89237a3e1dc845b7|4646e590a6c6f04a|
 fit_rectilinear_Mande_0b877e3a6d8996d1|branch|fc30316f26ae2129|4646e590a6c6f04a|76f64569d8a55e67|-931132757||t20665.6322090558s|s13040b|13040|rds|local|vector|fit_rectilinear_Mande||290.694||
 fit_rectilinear_Mande_1e51827a6c682273|branch|bf85a0aba6ae24da|4646e590a6c6f04a|76f64569d8a55e67|-1447824497||t20665.6322935819s|s13063b|13063|rds|local|vector|fit_rectilinear_Mande||289.892||
 diagnostics_rectilinear_Mande|stem|79a795b6ff8589fe|2d2eaf17c98e2829|dbcbe1b1334b4bc4|-1774344176||t20665.6322940687s|s313b|313|rds|local|vector|||0.019||
-plot_tree_states|stem|f52429bf0126b21e|a7ed96d3582bb893|7c93bd2be6637c4c|-946372951||t20671.5139213506s|s22524161b|22524161|rds|local|vector|||2.457|`coord_geo_polar()` was deprecated in deeptime 1.1.0. ℹ Please use `coord_geo_radial()` instead.. Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.|
 plot_world_map|stem|64f9b0935d09cdc3|5a7e475790a98b1e|ebf5326fd927f1ed|1859949891||t20671.6662394906s|s1007993b|1007993|rds|local|vector|||0.421||
+plot_tree_states|stem|06c17be78a18b24b|a7ed96d3582bb893|5c7f4f078c916edf|-946372951||t20675.4499651567s|s22524181b|22524181|rds|local|vector|||2.211|`coord_geo_polar()` was deprecated in deeptime 1.1.0. ℹ Please use `coord_geo_radial()` instead.. Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0. ℹ Please use `linewidth` instead. ℹ The deprecated feature was likely used in the ggtree package.   Please report the issue at <https://github.com/YuLab-SMU/ggtree/issues>.|
+manuscript|stem|b6612ac29d8e52a0|7579c4ff85c86516|fcd8f78d9bc23610|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20675.6977924853s|s1753171b|1753171|file|local|vector|||70.843||
 fit_model|function|3a4063d212291d95
-plot_tree|function|79f8b4e15be6ad25
+plot_tree|function|881d4ebeb8c329d1
 get_table_model_comparison|function|89f6d8a3d44e0154
 load_dplace_data|function|a8f5a9a0f3fc3bcb
 get_log_lik_fossilised|function|788f7fa86f45b025
@@ -1093,4 +1094,3 @@ plot_model|function|c433a87f7b68221d
 plot_mcmc_trace|function|6177c9f62a96c098
 combine_plots|function|692479be15d7a103
 simulate_model_comparison|function|3fba85a399d94650
-manuscript|stem|5e05fd51820e4b19|7579c4ff85c86516|e5787095ac5bbf21|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20675.4260760752s|s1744300b|1744300|file|local|vector|||74.22||
