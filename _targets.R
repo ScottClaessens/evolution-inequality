@@ -6,7 +6,7 @@ library(tidyverse)
 
 tar_option_set(
   packages = c("ape", "deeptime", "ggtree", "patchwork", "phangorn",
-               "phytools", "rstan", "tidyverse", "withr"),
+               "phytools", "rnaturalearth", "rstan", "tidyverse", "withr"),
   controller = crew_controller_local(workers = 8),
   deployment = "main"
 )
@@ -62,6 +62,13 @@ list(
       glottolog_languages_url, mcc_tree
     )
   ),
+
+  # ─────────────────────────────────────────
+  # Plot world map
+  # ─────────────────────────────────────────
+
+  # plot world map
+  tar_target(plot_world_map, plot_map(data)),
 
   # ─────────────────────────────────────────
   # Compare models of evolution for full tree
