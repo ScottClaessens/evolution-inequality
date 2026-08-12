@@ -5,7 +5,7 @@ library(tarchetypes)
 library(tidyverse)
 
 tar_option_set(
-  packages = c("ape", "deeptime", "ggtree", "patchwork", "phangorn",
+  packages = c("ape", "cmdstanr", "deeptime", "ggtree", "patchwork", "phangorn",
                "phytools", "rnaturalearth", "rstan", "tidyverse", "withr"),
   controller = crew_controller_local(workers = 8),
   deployment = "main"
@@ -69,6 +69,16 @@ list(
 
   # plot world map
   tar_target(plot_world_map, plot_map(data)),
+
+  # ─────────────────────────────────────────
+  # Calculate phylogenetic signal
+  # ─────────────────────────────────────────
+
+  # calculate phylogenetic signal
+  tar_target(
+    phylogenetic_signal,
+    calculate_phylogenetic_signal(data, mcc_tree)
+  ),
 
   # ─────────────────────────────────────────
   # Compare models of evolution for full tree
