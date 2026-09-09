@@ -92,8 +92,7 @@ list(
 
     values = tibble(
       model = c(
-        "full", "rectilinear", "unilinear", "relaxed_unilinear",
-        "alternative", "alternative_reversible"
+        "full", "rectilinear", "unilinear", "relaxed_unilinear"
       )
     ),
 
@@ -120,8 +119,7 @@ list(
     table_model_comparison,
     get_table_model_comparison(
       bind_rows(
-        fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear,
-        fit_alternative, fit_alternative_reversible
+        fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear
       )
     )
   ),
@@ -144,8 +142,7 @@ list(
 
       values = tibble(
         model = c(
-          "full", "rectilinear", "unilinear", "relaxed_unilinear",
-          "alternative", "alternative_reversible"
+          "full", "rectilinear", "unilinear", "relaxed_unilinear"
         )
       ),
 
@@ -170,8 +167,7 @@ list(
       table_model_comparison,
       get_table_model_comparison(
         bind_rows(
-          fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear,
-          fit_alternative, fit_alternative_reversible
+          fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear
         )
       )
     )
@@ -195,8 +191,7 @@ list(
 
       values = tibble(
         model = c(
-          "full", "rectilinear", "unilinear", "relaxed_unilinear",
-          "alternative", "alternative_reversible"
+          "full", "rectilinear", "unilinear", "relaxed_unilinear"
         )
       ),
 
@@ -221,8 +216,7 @@ list(
       table_model_comparison,
       get_table_model_comparison(
         bind_rows(
-          fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear,
-          fit_alternative, fit_alternative_reversible
+          fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear
         )
       )
     )
