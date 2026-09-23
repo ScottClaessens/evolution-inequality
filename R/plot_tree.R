@@ -76,7 +76,7 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
         name = "Holocene",
         max_age = 11.7,
         min_age = 0,
-        color = "azure"
+        color = "#e9fce9"
       ),
       color = "white"
     ) +
