@@ -5,8 +5,8 @@ library(tarchetypes)
 library(tidyverse)
 
 tar_option_set(
-  packages = c("ape", "cmdstanr", "deeptime", "ggtree", "patchwork", "phangorn",
-               "phytools", "rnaturalearth", "rstan", "tidyverse", "withr"),
+  packages = c("ape", "ggtree", "patchwork", "phangorn", "phytools",
+               "rnaturalearth", "tidyverse", "withr"),
   controller = crew_controller_local(workers = 8),
   deployment = "main"
 )
@@ -91,9 +91,7 @@ list(
   tar_map(
 
     values = tibble(
-      model = c(
-        "full", "rectilinear", "unilinear", "relaxed_unilinear"
-      )
+      model = c("full", "rectilinear", "unilinear", "relaxed_unilinear")
     ),
 
     # fit model
@@ -124,82 +122,29 @@ list(
     )
   ),
 
-  # ───────────────────────────────────────────────────────
-  # Compare models of evolution excluding specific families
-  # ───────────────────────────────────────────────────────
+  # ─────────────────────────────────────────────────────
+  # Compare models of evolution in specific world regions
+  # ─────────────────────────────────────────────────────
 
-  # loop over language families
+  # loop over world regions
   tar_map(
 
     values = tibble(
-      exclude_family = c("Atlantic-Congo", "Austronesian", "Afro-Asiatic",
-                         "Uto-Aztecan", "Indo-European", "Algic", "Nilotic",
-                         "Athabaskan-Eyak-Tlingit", "Sino-Tibetan", "Mande")
+      subset_region = c("Africa", "Americas", "Eurasia", "Oceania")
     ),
 
     # loop over models
     tar_map(
 
       values = tibble(
-        model = c(
-          "full", "rectilinear", "unilinear", "relaxed_unilinear"
-        )
+        model = c("full", "rectilinear", "unilinear", "relaxed_unilinear")
       ),
 
       # fit model
       tar_target(
         fit,
         fit_model(data, tree, chain, model,
-                  exclude_family = exclude_family),
-        pattern = map(chain),
-        deployment = "worker",
-        storage = "worker",
-        retrieval = "worker"
-      ),
-
-      # get diagnostics
-      tar_target(diagnostics, calculate_model_diagnostics(fit))
-
-    ),
-
-    # model comparison table
-    tar_target(
-      table_model_comparison,
-      get_table_model_comparison(
-        bind_rows(
-          fit_full, fit_rectilinear, fit_unilinear, fit_relaxed_unilinear
-        )
-      )
-    )
-
-  ),
-
-  # ─────────────────────────────────────────────────────────
-  # Compare models of evolution excluding specific continents
-  # ─────────────────────────────────────────────────────────
-
-  # loop over continents
-  tar_map(
-
-    values = tibble(
-      exclude_continent = c("Africa", "Asia", "Europe", "North America",
-                            "Oceania", "South America")
-    ),
-
-    # loop over models
-    tar_map(
-
-      values = tibble(
-        model = c(
-          "full", "rectilinear", "unilinear", "relaxed_unilinear"
-        )
-      ),
-
-      # fit model
-      tar_target(
-        fit,
-        fit_model(data, tree, chain, model,
-                  exclude_continent = exclude_continent),
+                  subset_region = subset_region),
         pattern = map(chain),
         deployment = "worker",
         storage = "worker",
@@ -234,7 +179,8 @@ list(
   tar_target(
     fit_asr,
     fit_model(data, tree, chain, model = "relaxed_unilinear",
-              stones = FALSE, asr = TRUE, tree_id = tree_id),
+              iter = 550000, burnin = 50000, stones = FALSE,
+              asr = TRUE, tree_id = tree_id),
     pattern = cross(chain, tree_id),
     # run in parallel
     deployment = "worker",
@@ -250,61 +196,6 @@ list(
     plot_tree_states,
     plot_tree(data, tree, tree_id, fit_asr)
   ),
-
-  # plot results globally and by language family
-  tar_target(plot_Global, plot_model(data, fit_asr, tree, tree_id,
-                                     end_time = -0.2, time_slice = 0.2)),
-  tar_map(
-    values = tibble(
-      family = c(
-        "Atlantic-Congo", "Austronesian", "Afro-Asiatic", "Uto-Aztecan",
-        "Indo-European", "Nilotic", "Algic", "Athabaskan-Eyak-Tlingit",
-        "Sino-Tibetan", "Mande", "Salishan", "Uralic", "Eskimo-Aleut",
-        "Austroasiatic", "Arawakan", "Cariban", "Central Sudanic", "Turkic",
-        "Cochimi-Yuman", "Dravidian", "Nuclear Trans New Guinea", "Siouan",
-        "Tupian", "Mayan"
-      )
-    ),
-    tar_target(plot, plot_model(data, fit_asr, tree, tree_id,
-                                family = family,
-                                end_time = -0.2, time_slice = 0.2))
-  ),
-
-  # combine plots
-  tar_target(
-    combined_plots,
-    combine_plots(
-      list(
-        plot_Global, plot_Atlantic.Congo, plot_Afro.Asiatic, plot_Nilotic,
-        plot_Mande, plot_Central.Sudanic, plot_Indo.European, plot_Sino.Tibetan,
-        plot_Uralic, plot_Austroasiatic, plot_Turkic, plot_Dravidian,
-        plot_Uto.Aztecan, plot_Algic, plot_Athabaskan.Eyak.Tlingit,
-        plot_Salishan, plot_Eskimo.Aleut, plot_Cochimi.Yuman, plot_Siouan,
-        plot_Mayan, plot_Austronesian, plot_Nuclear.Trans.New.Guinea,
-        plot_Arawakan, plot_Cariban, plot_Tupian
-      )
-    )
-  ),
-
-  # ─────────────────────────────────────────
-  # Fossilising nodes
-  # ─────────────────────────────────────────
-
-  # run comparison of different fossilisations
-  tar_target(log_lik_1, get_log_lik_fossilised(data, mcc_tree, "1")),
-  tar_target(log_lik_2, get_log_lik_fossilised(data, mcc_tree, "2")),
-  tar_target(log_lik_3, get_log_lik_fossilised(data, mcc_tree, "3")),
-
-  # summarise log bayes factors
-  tar_target(
-    table_fossilised_log_bfs,
-    get_table_fossilised(log_lik_1, log_lik_2, log_lik_3)
-  ),
-
-  # simulate model comparison
-  tar_target(sim_1, simulate_model_comparison(data, mcc_tree, fossil = "1")),
-  tar_target(sim_2, simulate_model_comparison(data, mcc_tree, fossil = "2")),
-  tar_target(sim_3, simulate_model_comparison(data, mcc_tree, fossil = "3")),
 
   # ─────────────────────────────────────────
   # Produce manuscript

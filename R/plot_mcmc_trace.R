@@ -2,8 +2,7 @@
 #'
 #' @param fit Tibble of posterior samples from the fitted model
 #' @param model Character of length 1. Which model was fitted. One of: "full",
-#'   "rectilinear", "unilinear", "relaxed_unilinear", "alternative", or
-#'   "alternative_reversible"
+#'   "rectilinear", "unilinear", or "relaxed_unilinear"
 #'
 #' @returns A ggplot object
 #'

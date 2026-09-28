@@ -5,12 +5,9 @@
 #' @param chain Index of the independent chain for the MCMC sampler. Used as a
 #'   random seed for reproducibility.
 #' @param model Character of length 1. Which model to fit. One of: "full",
-#'   "rectilinear", "unilinear", "relaxed_unilinear", "alternative", or
-#'   "alternative_reversible"
-#' @param exclude_family Character of length 1. Which language family to
-#'   exclude. If \code{NULL} (default), uses the full sample.
-#' @param exclude_continent Character of length 1. Which continent to exclude.
-#'   If \code{NULL} (default), uses the full sample.
+#'   "rectilinear", "unilinear", or "relaxed_unilinear"
+#' @param subset_region Character of length 1. Which world region to subset
+#'   to. If \code{NULL} (default), uses the full sample.
 #' @param iter Numeric. Number of MCMC sampling iterations.
 #' @param burnin Numeric. Number of MCMC burn-in iterations.
 #' @param stones Logical. If \code{TRUE} (default), include stepping stone
@@ -23,19 +20,13 @@
 #'
 #' @returns A tibble of posterior samples
 #'
-fit_model <- function(data, tree, chain, model = "full", exclude_family = NULL,
-                      exclude_continent = NULL, iter = 550000, burnin = 50000,
-                      stones = TRUE, asr = FALSE, tree_id = NULL) {
+fit_model <- function(data, tree, chain, model = "full", subset_region = NULL,
+                      iter = 11000000, burnin = 1000000, stones = TRUE, asr = FALSE,
+                      tree_id = NULL) {
 
-  # exclude a particular language family?
-  if (!is.null(exclude_family)) {
-    data <- filter_out(data, language_family == exclude_family)
-    tree <- keep.tip.multiPhylo(tree, tip = data$xd_id)
-  }
-
-  # exclude a particular continent?
-  if (!is.null(exclude_continent)) {
-    data <- filter_out(data, continent == exclude_continent)
+  # subset to a particular world region?
+  if (!is.null(subset_region)) {
+    data <- filter(data, world_region == subset_region)
     tree <- keep.tip.multiPhylo(tree, tip = data$xd_id)
   }
 
@@ -59,13 +50,8 @@ fit_model <- function(data, tree, chain, model = "full", exclude_family = NULL,
     paste0(
       model, "_", tree_id, "_", chain,
       ifelse(
-        !is.null(exclude_family),
-        paste0("_", exclude_family),
-        ""
-      ),
-      ifelse(
-        !is.null(exclude_continent),
-        paste0("_", str_replace(exclude_continent, " ", "_")),
+        !is.null(subset_region),
+        paste0("_", str_replace(subset_region, " ", "_")),
         ""
       )
   )
@@ -114,11 +100,9 @@ fit_model <- function(data, tree, chain, model = "full", exclude_family = NULL,
 
   # get restricted parameters for different models
   restricted_pars <- list(
-    "rectilinear"            = c("q13", "q21", "q31", "q32"),
-    "unilinear"              = c("q13", "q31"),
-    "relaxed_unilinear"      = c("q13"),
-    "alternative"            = c("q21", "q23", "q31", "q32"),
-    "alternative_reversible" = c("q23", "q32")
+    "rectilinear" = c("q13", "q21", "q31", "q32"),
+    "unilinear" = c("q13", "q31"),
+    "relaxed_unilinear" = c("q13")
   )
 
   # add command for model restrictions? no restrictions for full model

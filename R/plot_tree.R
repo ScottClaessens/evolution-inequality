@@ -70,16 +70,6 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
       low = "grey95",
       high = "black"
     ) +
-    # add timescale
-    deeptime::coord_geo_polar(
-      dat = tibble(
-        name = "Holocene",
-        max_age = 11.7,
-        min_age = 0,
-        color = "#e9fce9"
-      ),
-      color = "white"
-    ) +
     scale_x_continuous(breaks = c(-50, -100, -150, -200)) +
     theme(
       deeptime.axis.line.r = element_blank(),
