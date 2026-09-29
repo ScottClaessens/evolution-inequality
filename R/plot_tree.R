@@ -62,7 +62,7 @@ plot_tree <- function(data, tree, tree_id, fit_asr) {
     revts() %<+% dd +
     geom_nodepoint(
       mapping = aes(colour = prob_inequality),
-      size = 0.05
+      size = 0.5
     ) +
     scale_colour_gradient(
       name = "Probability of\nstratification",
