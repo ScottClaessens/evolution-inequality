@@ -3,15 +3,20 @@
 #' @param fit Tibble of posterior samples from the fitted model
 #' @param model Character of length 1. Which model was fitted. One of: "full",
 #'   "rectilinear", "unilinear", or "relaxed_unilinear"
+#' @param thin Numeric. How often to thin iterations to reduce plot size.
 #'
 #' @returns A ggplot object
 #'
-plot_mcmc_trace <- function(fit, model = "full") {
+plot_mcmc_trace <- function(fit, model = "full", thin = 10) {
+
+  # number of draws
+  n_draws <- nrow(fit)
 
   # plot trace
   out <-
     fit |>
     dplyr::select(c(chain, Iteration, q12, q13, q21, q23, q31, q32)) |>
+    slice(seq(from = 1, to = n_draws, by = thin)) |>
     pivot_longer(
       cols = !c(chain, Iteration),
       names_to = "parameter"
@@ -48,7 +53,7 @@ plot_mcmc_trace <- function(fit, model = "full") {
   )
 
   # cleanup
-  rm(fit, tree_id, id)
+  rm(fit, model, thin, n_draws)
 
   # return
   out

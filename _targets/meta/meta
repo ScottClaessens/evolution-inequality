@@ -136,10 +136,6 @@ table_model_comparison|stem|e2fb7a01bca9b675|01e7097fad5f3738|e1c4e7dc08a21851|1
 diagnostics_unilinear|stem|98bbbc7cca301894|d94b9c2b6bf43ad9|4c3ddab3300fc64d|1973760984||t20721.6931841406s|s359b|359|rds|local|vector|||1.711||
 diagnostics_relaxed_unilinear|stem|6bec0ae15bc0bf44|effc99da601d8fc2|fc40bd5cf2b1832e|-983376191||t20721.6933144386s|s381b|381|rds|local|vector|||0.535||
 diagnostics_rectilinear|stem|fe34febf9429d22c|ba4b81d4c44dba67|f767b872125e8eac|258249229||t20721.6935964453s|s315b|315|rds|local|vector|||0.579||
-plot_trace_unilinear|stem|85ab38905bf32ae7|430518754ae1b7e9|dfe264ec325df604|387450143||t20721.6939773176s|s4244185b|4244185|rds|local|vector|||1.216|object 'tree_id' not found. object 'id' not found|
-plot_trace_full|stem|9d27afe61b74e218|67706d866f65dbd4|e180e98d1e0e953e|1080273078||t20721.6939905841s|s5036007b|5036007|rds|local|vector|||0.757|object 'tree_id' not found. object 'id' not found|
-plot_trace_rectilinear|stem|c2e5603f624f11a8|d69096d113e14a4e|cb9bcaba053e84ce|671391762||t20721.6940006711s|s2622089b|2622089|rds|local|vector|||0.548|object 'tree_id' not found. object 'id' not found|
-plot_trace_relaxed_unilinear|stem|09619d59581b5c8b|995f76b134250db6|5667abc243e601dd|-1808938347||t20721.6940116334s|s4669664b|4669664|rds|local|vector|||0.598|object 'tree_id' not found. object 'id' not found|
 fit_asr_3adb102327a610cc|branch|e7695607ecde1372|0241905ae9453501|9afb0e0c5baad2d2|-1573974||t20721.7251123532s|s6977063b|6977063|rds|local|vector|fit_asr||82.691||
 fit_asr_34748dbc47370b96|branch|d76aa32f35ef34f2|0241905ae9453501|9afb0e0c5baad2d2|-1140961626||t20721.7251184579s|s7001355b|7001355|rds|local|vector|fit_asr||83.201||
 fit_asr_e5c633a70fddaa39|branch|f57399c111e504ff|0241905ae9453501|9afb0e0c5baad2d2|-363996624||t20721.7251243821s|s6898623b|6898623|rds|local|vector|fit_asr||83.748||
@@ -553,11 +549,15 @@ lpalpha|function|43db729e1d7e5949
 calculate_model_diagnostics|function|1ae842fe1691394b
 plot_map|function|a5b8ba3ae3e478ad
 lpbeta|function|f0584cbc586ea7b8
-plot_mcmc_trace|function|6177c9f62a96c098
+plot_mcmc_trace|function|ce763be4c2579508
 ratematrix|function|9909928fccc19acd
 mhalpha|function|d4fed22f50061ab2
 mhbeta|function|4bf93893f7a85f2b
 emcmc|function|046423ebb47c73ea
 delta|function|a046204fbd853581
 calculate_phylogenetic_signal|function|341908b3e4f883fc
-manuscript|stem|2c95a131dab99bbf|a67d1dbd82dfb22b|82ccdb68c624ecdf|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20725.6021170044s|s4906711b|4906711|file|local|vector|||50.792||
+plot_trace_unilinear|stem|692a292c90c917c8|430518754ae1b7e9|40989e3086b42fc1|387450143||t20725.6205396543s|s809162b|809162|rds|local|vector|||0.528||
+plot_trace_full|stem|0d60ccb689f17b85|67706d866f65dbd4|d617e9f57803dc09|1080273078||t20725.6205460115s|s890931b|890931|rds|local|vector|||0.352||
+plot_trace_rectilinear|stem|ea5a3a7de698f7c1|d69096d113e14a4e|2b7c17c6c9740869|671391762||t20725.6205503855s|s645262b|645262|rds|local|vector|||0.191||
+plot_trace_relaxed_unilinear|stem|659af1f2326e53a3|995f76b134250db6|daf8584b4807ee8f|-1808938347||t20725.6205549475s|s853433b|853433|rds|local|vector|||0.209||
+manuscript|stem|148eb01a63af16d5|a67d1dbd82dfb22b|7d73841bab25f941|-1793997187|quarto/manuscript.docx*quarto/manuscript.pdf*quarto/manuscript.qmd*quarto/supplement.qmd|t20725.6210972935s|s1637827b|1637827|file|local|vector|||44.191||
