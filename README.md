@@ -1,4 +1,4 @@
-# The Origins of Inequality
+# The Cultural Evolution of Inequality in Human Societies
 
 ## Getting Started
 
@@ -29,7 +29,7 @@ of this repository.
 To run the pipeline:
 
 1. Clone this repository to your local machine
-2. Open the R Project file `origins-inequality.Rproj`
+2. Open the R Project file `evolution-inequality.Rproj`
 3. In the console, run the full pipeline with `targets::tar_make()`
 
 ## Help
