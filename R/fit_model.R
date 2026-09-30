@@ -21,8 +21,8 @@
 #' @returns A tibble of posterior samples
 #'
 fit_model <- function(data, tree, chain, model = "full", subset_region = NULL,
-                      iter = 11000000, burnin = 1000000, stones = TRUE, asr = FALSE,
-                      tree_id = NULL) {
+                      iter = 1100000, burnin = 100000, stones = TRUE,
+                      asr = FALSE, tree_id = NULL) {
 
   # subset to a particular world region?
   if (!is.null(subset_region)) {

@@ -48,8 +48,15 @@ list(
   # get tree file path
   tar_target(tree_file, "data/tree/dplace.nxs", format = "file"),
 
+  # get world regions file path
+  tar_target(world_regions_file, "data/world_regions/world_regions.csv",
+             format = "file"),
+
   # load tree
   tar_target(tree, read.nexus(tree_file)),
+
+  # load world regions
+  tar_target(world_regions, read_csv(world_regions_file)),
 
   # compute maximum clade credibility tree
   tar_target(mcc_tree, phangorn::mcc(tree)),
@@ -59,7 +66,7 @@ list(
     data,
     load_dplace_data(
       dplace_data_url, dplace_societies_url,
-      glottolog_languages_url, mcc_tree
+      glottolog_languages_url, mcc_tree, world_regions
     )
   ),
 
@@ -130,7 +137,7 @@ list(
   tar_map(
 
     values = tibble(
-      subset_region = c("Africa", "Americas", "Eurasia", "Oceania")
+      subset_region = c("Africa", "Americas", "Eurasia", "Sahul")
     ),
 
     # loop over models

@@ -5,7 +5,7 @@
 #' societies that can be linked to the phylogenetic tree.
 #'
 #' @details The dataset produced by this function is a tibble with 1258
-#'   observations and 11 variables:
+#'   observations and 12 variables:
 #' \describe{
 #'  \item{soc_id}{Character, society ID}
 #'  \item{xd_id}{Character, cross-dataset ID (see
@@ -14,7 +14,9 @@
 #'  \item{glottocode}{Glottocode for the language or dialect of the society}
 #'  \item{language_family}{Language family for the language or dialect of the
 #'    society}
-#'  \item{region}{Region of the society}
+#'  \item{region}{Region of the society according to D-PLACE}
+#'  \item{world_region}{World region of the society according to monophyletic or
+#'    paraphyletic tree groupings (Africa, Americas, Eurasia, or Sahul)}
 #'  \item{continent}{Continent of the society}
 #'  \item{focal_year}{Principal year to which data refer}
 #'  \item{latitude}{Latitude of the society}
@@ -30,11 +32,13 @@
 #'   Glottolog v5.3
 #' @param mcc_tree Maximum clade credibility tree of D-PLACE societies used to
 #'   filter the dataset
+#' @param world_regions Data on monophyletic world regions to link to the
+#'   dataset
 #'
 #' @returns A tibble
 #'
 load_dplace_data <- function(dplace_data_url, dplace_societies_url,
-                             glottolog_languages_url, mcc_tree) {
+                             glottolog_languages_url, mcc_tree, world_regions) {
 
   # load csv files
   data <- read.csv(file = dplace_data_url)
@@ -45,60 +49,6 @@ load_dplace_data <- function(dplace_data_url, dplace_societies_url,
   levels_EA066 <- c("Absence of distinctions", "Wealth distinctions",
                     "Elite stratification", "Dual stratification",
                     "Complex stratification")
-
-  # list of world regions
-  world_regions <- c(
-    "East Tropical Africa"         = "Africa",
-    "Macaronesia"                  = "Africa",
-    "Northeast Tropical Africa"    = "Africa",
-    "Northern Africa"              = "Africa",
-    "South Tropical Africa"        = "Africa",
-    "Southern Africa"              = "Africa",
-    "Subantarctic Islands"         = "Africa",
-    "West Tropical Africa"         = "Africa",
-    "West-Central Tropical Africa" = "Africa",
-    "Western Indian Ocean"         = "Africa",
-    "Brazil"                       = "Americas",
-    "Caribbean"                    = "Americas",
-    "Central America"              = "Americas",
-    "Eastern Canada"               = "Americas",
-    "Mexico"                       = "Americas",
-    "North-Central U.S.A."         = "Americas",
-    "Northeastern U.S.A."          = "Americas",
-    "Northern South America"       = "Americas",
-    "Northwestern U.S.A."          = "Americas",
-    "South-Central U.S.A."         = "Americas",
-    "Southeastern U.S.A."          = "Americas",
-    "Southern South America"       = "Americas",
-    "Southwestern U.S.A."          = "Americas",
-    "Subarctic America"            = "Americas",
-    "Western Canada"               = "Americas",
-    "Western South America"        = "Americas",
-    "Arabian Peninsula"            = "Eurasia",
-    "Caucasus"                     = "Eurasia",
-    "China"                        = "Eurasia",
-    "Eastern Asia"                 = "Eurasia",
-    "Eastern Europe"               = "Eurasia",
-    "Indian Subcontinent"          = "Eurasia",
-    "Indo-China"                   = "Eurasia",
-    "Malesia"                      = "Eurasia",
-    "Middle Asia"                  = "Eurasia",
-    "Middle Europe"                = "Eurasia",
-    "Mongolia"                     = "Eurasia",
-    "Northern Europe"              = "Eurasia",
-    "Russian Far East"             = "Eurasia",
-    "Siberia"                      = "Eurasia",
-    "Southeastern Europe"          = "Eurasia",
-    "Southwestern Europe"          = "Eurasia",
-    "Western Asia"                 = "Eurasia",
-    "Australia"                    = "Oceania",
-    "New Zealand"                  = "Oceania",
-    "North-Central Pacific"        = "Oceania",
-    "Northwestern Pacific"         = "Oceania",
-    "Papuasia"                     = "Oceania",
-    "South-Central Pacific"        = "Oceania",
-    "Southwestern Pacific"         = "Oceania"
-  )
 
   # wrangle ethnographic atlas data
   data |>
@@ -124,7 +74,6 @@ load_dplace_data <- function(dplace_data_url, dplace_societies_url,
       society               = Name,
       glottocode            = Glottocode,
       region                = region,
-      world_region          = as.vector(world_regions[region]),
       focal_year            = main_focal_year,
       latitude              = Latitude,
       longitude             = Longitude,
@@ -142,7 +91,11 @@ load_dplace_data <- function(dplace_data_url, dplace_societies_url,
       dplyr::select(languages, Glottocode, Name),
       by = c("Family_ID" = "Glottocode")
     ) |>
-    dplyr::select(soc_id:glottocode, Name, region:class_differentiation) |>
+    # add data on world regions
+    left_join(world_regions, by = "xd_id") |>
+    # reorder columns
+    dplyr::select(soc_id:glottocode, Name, region, world_region,
+                  focal_year:class_differentiation) |>
     rename(language_family = Name)
 
 }

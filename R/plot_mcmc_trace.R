@@ -7,7 +7,7 @@
 #'
 #' @returns A ggplot object
 #'
-plot_mcmc_trace <- function(fit, model = "full", thin = 10) {
+plot_mcmc_trace <- function(fit, model = "full", thin = 1) {
 
   # number of draws
   n_draws <- nrow(fit)
