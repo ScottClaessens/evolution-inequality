@@ -20,7 +20,7 @@ calculate_phylogenetic_signal <- function(data, mcc_tree) {
   trait <- ifelse(as.numeric(trait) %in% 3:5, 3, as.numeric(trait))
 
   # calculate delta (uses code in R/helper.R)
-  delta_EA066 <- delta(
+  delta_ea066 <- delta(
     trait = trait,   # trait data
     tree = mcc_tree, # maximum clade credibility tree
     lambda0 = 0.1,   # rate parameter of the proposal
@@ -36,11 +36,11 @@ calculate_phylogenetic_signal <- function(data, mcc_tree) {
     rtrait <- sample(trait)
     random_delta[i] <- delta(rtrait, mcc_tree, 0.1, 0.5, 10000, 10, 100)
   }
-  p_value <- sum(random_delta > delta_EA066) / length(random_delta)
+  p_value <- sum(random_delta > delta_ea066) / length(random_delta)
 
   # return
   list(
-    delta = delta_EA066,
+    delta = delta_ea066,
     p_value = p_value
   )
 

@@ -7,7 +7,7 @@
 plot_time_windows <- function(time_windows) {
 
   # plot node counts through time
-  pA <-
+  left_plot <-
     time_windows |>
     rowwise() |>
     mutate(
@@ -57,7 +57,7 @@ plot_time_windows <- function(time_windows) {
     theme_classic()
 
   # plot ratio of stratified to egalitarian nodes
-  pB <-
+  right_plot <-
     time_windows |>
     rowwise() |>
     mutate(
@@ -117,7 +117,7 @@ plot_time_windows <- function(time_windows) {
     theme(legend.position = "none")
 
   # put together
-  out <- pA + pB
+  out <- left_plot + right_plot
 
   # save
   ggsave(

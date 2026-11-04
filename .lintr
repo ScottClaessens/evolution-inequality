@@ -1,0 +1,9 @@
+linters: linters_with_defaults(
+    commented_code_linter = NULL,
+    object_usage_linter = NULL
+  )
+encoding: "UTF-8"
+exclusions: list(
+  "R/helpers.R",
+  "quarto/"
+  )

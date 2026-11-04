@@ -180,7 +180,7 @@ list(
   # ─────────────────────────────────────────
 
   # get tree ids
-  tar_target(tree_id, sample(1:length(tree), size = 100, replace = FALSE)),
+  tar_target(tree_id, sample(seq_along(tree), size = 100, replace = FALSE)),
 
   # fit ancestral state reconstruction model
   tar_target(

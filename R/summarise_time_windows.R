@@ -21,14 +21,14 @@ summarise_time_windows <- function(ancestral_states, start = -20, end = 0,
       # sum across all nodes, retaining posterior uncertainty
       rowid_to_column() |>
       rowwise() |>
-      mutate(drawid = list(1:length(probably_egalitarian))) |>
+      mutate(drawid = list(seq_along(probably_egalitarian))) |>
       unnest(c(drawid, starts_with("probably_"), p1, p2, p3)) |>
       group_by(drawid) |>
       summarise(
         n = n(),
-        max_dist_from_equality_p1 = max(abs(p1 - (1/3))),
-        max_dist_from_equality_p2 = max(abs(p2 - (1/3))),
-        max_dist_from_equality_p3 = max(abs(p3 - (1/3))),
+        max_dist_from_equality_p1 = max(abs(p1 - (1 / 3))),
+        max_dist_from_equality_p2 = max(abs(p2 - (1 / 3))),
+        max_dist_from_equality_p3 = max(abs(p3 - (1 / 3))),
         n_egalitarian = sum(probably_egalitarian),
         n_wealth_divided = sum(probably_wealth_divided),
         n_stratified = sum(probably_stratified),

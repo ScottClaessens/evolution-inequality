@@ -1,4 +1,4 @@
-# The Cultural Evolution of Inequality in Human Societies
+# The Origins of Inequality in Human Societies
 
 ## Getting Started
 
@@ -13,8 +13,9 @@ the following R packages:
 
 ```r
 install.packages(
-  c("ape", "BiocManager", "crew", "deeptime", "patchwork", "phangorn",
-    "phytools", "rstan", "tarchetypes", "targets", "tidyverse", "withr")
+  c("ape", "BiocManager", "crew", "deeptime", 
+    "patchwork", "phangorn", "phytools", "rnaturalearth",
+    "tarchetypes", "targets", "tidyverse", "withr")
 )
 BiocManager::install("ggtree")
 ```

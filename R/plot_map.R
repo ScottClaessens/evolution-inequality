@@ -19,8 +19,7 @@ plot_map <- function(data) {
       colour = NA
     ) +
     geom_point(
-      data =
-        data |>
+      data = data |>
         mutate(
           class = as.numeric(class_differentiation),
           class = case_when(

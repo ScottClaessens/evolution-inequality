@@ -46,7 +46,7 @@ load_dplace_data <- function(dplace_data_url, dplace_societies_url,
   languages <- read.csv(file = glottolog_languages_url)
 
   # ordered levels
-  levels_EA066 <- c("Absence of distinctions", "Wealth distinctions",
+  levels_ea066 <- c("Absence of distinctions", "Wealth distinctions",
                     "Elite stratification", "Dual stratification",
                     "Complex stratification")
 
@@ -77,7 +77,7 @@ load_dplace_data <- function(dplace_data_url, dplace_societies_url,
       focal_year            = main_focal_year,
       latitude              = Latitude,
       longitude             = Longitude,
-      class_differentiation = ordered(EA066, levels = levels_EA066)
+      class_differentiation = ordered(EA066, levels = levels_ea066)
     ) |>
     # filter to societies in phylogenetic tree (n = 1258)
     filter(xd_id %in% mcc_tree$tip.label) |>

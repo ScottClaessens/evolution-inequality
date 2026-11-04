@@ -31,7 +31,7 @@ fit_model <- function(data, tree, chain, model = "full", subset_region = NULL,
   }
 
   # tree_id must be set if asr is true
-  if (asr & is.null(tree_id)) {
+  if (asr && is.null(tree_id)) {
     stop(
       "Tree ID must be set when estimating ancestral states.",
       call. = FALSE
@@ -54,7 +54,7 @@ fit_model <- function(data, tree, chain, model = "full", subset_region = NULL,
         paste0("_", str_replace(subset_region, " ", "_")),
         ""
       )
-  )
+    )
   data_file     <- paste0("data_",     suffix, ".txt")
   tree_file     <- paste0("tree_",     suffix, ".txt")
   commands_file <- paste0("commands_", suffix, ".txt")
