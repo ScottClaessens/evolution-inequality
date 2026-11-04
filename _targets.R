@@ -199,10 +199,16 @@ list(
   tar_target(diagnostics_asr, calculate_model_diagnostics(fit_asr)),
 
   # plot tree
-  tar_target(
-    plot_tree_states,
-    plot_tree(data, tree, tree_id, fit_asr)
-  ),
+  tar_target(plot_tree_states, plot_tree(data, tree, tree_id, fit_asr)),
+
+  # extract ancestral states
+  tar_target(ancestral_states, extract_ancestral_states(fit_asr, data, tree)),
+
+  # summarise time windows
+  tar_target(time_windows, summarise_time_windows(ancestral_states)),
+
+  # plot time windows
+  tar_target(plot_time, plot_time_windows(time_windows)),
 
   # ─────────────────────────────────────────
   # Produce manuscript
