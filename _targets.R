@@ -5,8 +5,8 @@ library(tarchetypes)
 library(tidyverse)
 
 tar_option_set(
-  packages = c("ape", "deeptime", "ggtree", "patchwork", "phangorn", "phytools",
-               "rnaturalearth", "tidyverse", "withr"),
+  packages = c("ape", "deeptime", "ggtree", "here", "patchwork", "phangorn",
+               "phytools", "rnaturalearth", "tidyverse", "treeio", "withr"),
   controller = crew_controller_local(workers = 8),
   deployment = "main"
 )

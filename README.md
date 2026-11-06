@@ -13,11 +13,11 @@ the following R packages:
 
 ```r
 install.packages(
-  c("ape", "BiocManager", "crew", "deeptime", 
+  c("ape", "BiocManager", "crew", "deeptime", "here",
     "patchwork", "phangorn", "phytools", "rnaturalearth",
     "tarchetypes", "targets", "tidyverse", "withr")
 )
-BiocManager::install("ggtree")
+BiocManager::install(c("ggtree", "treeio"))
 ```
 
 You will also need to download the software BayesTraits V3.0.5 from 

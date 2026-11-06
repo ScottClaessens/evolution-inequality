@@ -52,7 +52,7 @@ plot_time_windows <- function(time_windows) {
       limits = c(min(time_windows$time), max(time_windows$time))
     ) +
     scale_y_continuous(
-      name = "Number of internal\nnodes in time window"
+      name = "Number of ancestral nodes\nwithin last 1000 years"
     ) +
     theme_classic()
 
@@ -117,7 +117,7 @@ plot_time_windows <- function(time_windows) {
     theme(legend.position = "none")
 
   # put together
-  out <- left_plot + right_plot
+  out <- left_plot + right_plot + plot_annotation(tag_levels = "a")
 
   # save
   ggsave(
