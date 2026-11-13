@@ -7,7 +7,7 @@ library(tidyverse)
 tar_option_set(
   packages = c("ape", "deeptime", "ggtree", "here", "patchwork", "phangorn",
                "phytools", "rnaturalearth", "tidyverse", "treeio", "withr"),
-  controller = crew_controller_local(workers = 8),
+  controller = crew_controller_local(workers = 2),
   deployment = "main"
 )
 tar_source()
@@ -204,11 +204,36 @@ list(
   # extract ancestral states
   tar_target(ancestral_states, extract_ancestral_states(fit_asr, data, tree)),
 
-  # summarise time windows
-  tar_target(time_windows, summarise_time_windows(ancestral_states)),
+  # get time sequence
+  tar_target(time_seq, c(-20:-1, -0.1)),
 
-  # plot time windows
-  tar_target(plot_time, plot_time_windows(time_windows)),
+  # summarise time slices per tree
+  tar_target(
+    time_slices,
+    summarise_time_slices(ancestral_states, tree, tree_id, time_seq),
+    pattern = cross(tree_id, time_seq)
+  ),
+
+  # plot time slices
+  tar_target(plot_time, plot_time_slices(time_slices)),
+
+  # ─────────────────────────────────────────
+  # Fit phylogeographic model
+  # ─────────────────────────────────────────
+
+  # fit phylogeographic model
+  tar_target(
+    fit_geo,
+    fit_phylogeography(data, tree, tree_id),
+    pattern = map(tree_id),
+    # run in parallel
+    deployment = "worker",
+    storage = "worker",
+    retrieval = "worker"
+  ),
+
+  # plot phylogeography
+  tar_target(plot_geo, plot_phylogeography(fit_geo, ancestral_states)),
 
   # ─────────────────────────────────────────
   # Produce manuscript
