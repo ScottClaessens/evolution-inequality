@@ -232,8 +232,19 @@ list(
     retrieval = "worker"
   ),
 
-  # plot phylogeography
-  tar_target(plot_geo, plot_phylogeography(fit_geo, ancestral_states)),
+  # phylogeography time sequence for plotting
+  tar_target(geo_time_seq, c(-0.1, seq(-4, -20, by = -4))),
+
+  # plot individual phylogeography maps
+  tar_target(
+    plot_geo,
+    plot_phylogeography(fit_geo, ancestral_states, tree, tree_id, geo_time_seq),
+    pattern = map(geo_time_seq),
+    iteration = "list"
+  ),
+
+  # combine phylogeography plots
+  tar_target(plot_geo_combined, combine_phylogeography_plots(plot_geo)),
 
   # ─────────────────────────────────────────
   # Produce manuscript
