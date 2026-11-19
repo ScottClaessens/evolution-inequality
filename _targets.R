@@ -218,33 +218,30 @@ list(
   tar_target(plot_time, plot_time_slices(time_slices)),
 
   # ─────────────────────────────────────────
-  # Fit phylogeographic model
+  # Plot phylogeography
   # ─────────────────────────────────────────
 
-  # fit phylogeographic model
-  tar_target(
-    fit_geo,
-    fit_phylogeography(data, tree, tree_id),
-    pattern = map(tree_id),
-    # run in parallel
-    deployment = "worker",
-    storage = "worker",
-    retrieval = "worker"
-  ),
+  # get locations file path
+  tar_target(locations_file, "data/locations/edge6636-March-2023.trees",
+             format = "file"),
 
-  # phylogeography time sequence for plotting
-  tar_target(geo_time_seq, c(-0.1, seq(-4, -20, by = -4))),
+  # load location data
+  tar_target(locations, load_location_data(locations_file, tree_id)),
 
-  # plot individual phylogeography maps
+  # time sequence for plotting
+  tar_target(geo_time_seq, seq(-3, -18, by = -3)),
+
+  # plot individual maps
   tar_target(
-    plot_geo,
-    plot_phylogeography(fit_geo, ancestral_states, tree, tree_id, geo_time_seq),
+    plot_location,
+    plot_locations(locations, ancestral_states, data, tree, tree_id,
+                   time = geo_time_seq),
     pattern = map(geo_time_seq),
     iteration = "list"
   ),
 
-  # combine phylogeography plots
-  tar_target(plot_geo_combined, combine_phylogeography_plots(plot_geo)),
+  # combine maps
+  tar_target(plot_location_combined, combine_location_plots(plot_location)),
 
   # ─────────────────────────────────────────
   # Produce manuscript
