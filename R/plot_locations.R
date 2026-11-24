@@ -76,6 +76,12 @@ plot_locations <- function(locations, ancestral_states, data,
       probably_egalitarian = p1 > p2 & p1 > p3,
       probably_wealth_divided = p2 > p1 & p2 > p3,
       probably_stratified = p3 > p1 & p3 > p2,
+      # variable for plotting
+      var_for_plot = list(
+        c(probably_egalitarian,
+          probably_wealth_divided,
+          probably_stratified)
+      ),
       # get descendants as integer indexes
       descendants = phangorn::Descendants(
         x = tree[[tree_id]],
@@ -107,15 +113,20 @@ plot_locations <- function(locations, ancestral_states, data,
       )
     ) |>
     ungroup() |>
-    dplyr::select(!c(node))
+    dplyr::select(!c(node)) |>
+    # get average locations to avoid duplicating lineages
+    group_by(descendants) |>
+    mutate(
+      latitude = mean(latitude),
+      longitude = mean(longitude)
+    )
 
   # join datasets by nodes that share the same glottocode descendants
   locations <-
     left_join(
       x = active_lineages,
       y = locations,
-      by = c("tree_id", "descendants"),
-      relationship = "many-to-many"
+      by = c("tree_id", "descendants")
     ) |>
     dplyr::select(!descendants) |>
     # drop cases without location data
@@ -133,27 +144,31 @@ plot_locations <- function(locations, ancestral_states, data,
       mapping = aes(
         x = ((longitude + 180) %% 360) - 180,
         y = latitude,
-        z = probably_stratified
+        z = var_for_plot
       ),
       fun = function(x) {
-        sum(x) / 100
+        num_egalitarian    <- sum(unlist(lapply(x, function(i) i[1])))
+        num_wealth_divided <- sum(unlist(lapply(x, function(i) i[2])))
+        num_stratified     <- sum(unlist(lapply(x, function(i) i[3])))
+        log((num_stratified + 1) / (num_egalitarian + 1)) # log ratio (offset)
       },
       colour = NA,
-      bins = 40
+      binwidth = 10,
+      center = c(0, 0)
     ) +
     geom_sf(
       fill = NA,
       colour = "black",
       linewidth = 0.07
     ) +
-    scale_fill_gradient(
-      name = "Number of stratified lineages",
-      low = "white",
-      high = "#e6550e",
+    scale_fill_gradient2(
+      name = "Log ratio of stratified lineages\nto egalitarian lineages",
+      low = "#19AAF1",
+      mid = "white",
+      high = "#E6550E",
       na.value = "green",
-      transform = scales::transform_boxcox(p = -1, offset = 1),
-      breaks = c(0, 1, 100),
-      limits = c(0, 125)
+      breaks = c(-5, 0, 5),
+      limits = c(-7.5, 7.5)
     ) +
     coord_sf(
       xlim = c(-160, 160),
@@ -168,7 +183,7 @@ plot_locations <- function(locations, ancestral_states, data,
     theme_void() +
     theme(
       panel.background = element_rect(
-        fill = "white"
+        fill = "grey90"
       ),
       panel.border = element_rect(
         colour = "black",
